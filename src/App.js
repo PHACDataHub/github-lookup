@@ -60,7 +60,6 @@ function App() {
         {repositories.map((repo) => (
           <li key={repo.id}>
             <strong>Name:</strong> {repo.name}<br />
-            <strong>Description:</strong> {repo.description}<br />
             <strong>URL:</strong> <a href={repo.html_url}>{repo.html_url}</a><br />
             <strong>Contributors:</strong> {contributors[repo.id]}<br />
             <strong>URL: </strong>{links[repo.id]}<br />

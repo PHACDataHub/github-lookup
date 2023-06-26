@@ -32,7 +32,7 @@ function App() {
         `https://api.github.com/repos/${owner}/${repo}/contributors`,
         {
           headers: {
-            Authorization: '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',
+            Authorization: '',
           },
         }
       );
@@ -47,7 +47,7 @@ function App() {
         `https://api.github.com/repos/${owner}/${repo}/commits`,
         {
           headers: {
-            Authorization: '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',
+            Authorization: '',
           },
         }
       );

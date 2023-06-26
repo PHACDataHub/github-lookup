@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import '../src/App.css'
 function App() {
   const [repositories, setRepositories] = useState([]);
   const [contributors, setContributors] = useState({});
@@ -72,7 +72,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className='main'>
       <h1>GitHub Repositories</h1>
       <h2>Repositories</h2>
       <ul>
@@ -82,7 +82,7 @@ function App() {
             <strong>URL:</strong> <a href={repo.html_url}>{repo.html_url}</a><br />
             <strong>Contributors:</strong> {contributors[repo.id]}<br />
             <strong>First Commit:</strong> {firstAuthors[repo.id]}<br />
-            <button onClick={() => fetchContributors('PHACDataHub', repo.name, repo.id)}>Get Contributors and First Author</button>
+            <button className="btn" onClick={() => fetchContributors('PHACDataHub', repo.name, repo.id)}>Get Data</button>
             <hr></hr>
           </li>
         ))}

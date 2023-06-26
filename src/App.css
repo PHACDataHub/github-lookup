@@ -1,0 +1,12 @@
+.main{
+    padding-left: 50px;
+}
+
+li{
+    list-style: none;
+    margin-left: -40px;
+}
+
+.btn{
+    margin-top: 15px;
+}

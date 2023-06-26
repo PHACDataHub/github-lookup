@@ -4,7 +4,7 @@ import axios from 'axios';
 function App() {
   const [repositories, setRepositories] = useState([]);
   const [contributors, setContributors] = useState({});
-  const [firstCommitters, setFirstCommitters] = useState({});
+  const [firstAuthors, setFirstAuthors] = useState({});
 
   useEffect(() => {
     const fetchRepositories = async () => {
@@ -13,7 +13,7 @@ function App() {
           'https://api.github.com/orgs/PHACDataHub/repos',
           {
             headers: {
-              Authorization: 'YOUR_ACCESS_TOKEN',
+              Authorization: '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',
             },
           }
         );
@@ -32,7 +32,7 @@ function App() {
         `https://api.github.com/repos/${owner}/${repo}/contributors`,
         {
           headers: {
-            Authorization: '',
+            Authorization: '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',
           },
         }
       );
@@ -47,16 +47,16 @@ function App() {
         `https://api.github.com/repos/${owner}/${repo}/commits`,
         {
           headers: {
-            Authorization: '',
+            Authorization: 'YOUR_ACCESS_TOKEN',
           },
         }
       );
-        console.log(commitsResponse.data[0]);
+
       const firstCommit = commitsResponse.data[0];
-      const firstCommitter = firstCommit.committer ? firstCommit.committer.login : 'Unknown';
-      setFirstCommitters((prevFirstCommitters) => ({
-        ...prevFirstCommitters,
-        [repoId]: firstCommitter,
+      const firstAuthor = firstCommit.author ? firstCommit.author.login : 'Unknown';
+      setFirstAuthors((prevFirstAuthors) => ({
+        ...prevFirstAuthors,
+        [repoId]: firstAuthor,
       }));
     } catch (error) {
       console.error(`Error fetching contributors for ${owner}/${repo}:`, error);
@@ -64,8 +64,8 @@ function App() {
         ...prevContributors,
         [repoId]: '',
       }));
-      setFirstCommitters((prevFirstCommitters) => ({
-        ...prevFirstCommitters,
+      setFirstAuthors((prevFirstAuthors) => ({
+        ...prevFirstAuthors,
         [repoId]: '',
       }));
     }
@@ -81,8 +81,8 @@ function App() {
             <strong>Name:</strong> {repo.name}<br />
             <strong>URL:</strong> <a href={repo.html_url}>{repo.html_url}</a><br />
             <strong>Contributors:</strong> {contributors[repo.id]}<br />
-            <strong>First Committer:</strong> {firstCommitters[repo.id]}<br />
-            <button onClick={() => fetchContributors('PHACDataHub', repo.name, repo.id)}>Get Contributors and First Committer</button>
+            <strong>First Commit:</strong> {firstAuthors[repo.id]}<br />
+            <button onClick={() => fetchContributors('PHACDataHub', repo.name, repo.id)}>Get Contributors and First Author</button>
             <hr></hr>
           </li>
         ))}

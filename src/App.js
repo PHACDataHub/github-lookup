@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../src/App.css'
+import Papa from 'papaparse';
+
 function App() {
   const [repositories, setRepositories] = useState([]);
   const [contributors, setContributors] = useState({});
@@ -13,7 +14,7 @@ function App() {
           'https://api.github.com/orgs/PHACDataHub/repos',
           {
             headers: {
-              Authorization: '',
+              Authorization: 'YOUR_ACCESS_TOKEN',
             },
           }
         );
@@ -32,7 +33,7 @@ function App() {
         `https://api.github.com/repos/${owner}/${repo}/contributors`,
         {
           headers: {
-            Authorization: '',
+            Authorization: 'YOUR_ACCESS_TOKEN',
           },
         }
       );
@@ -71,9 +72,31 @@ function App() {
     }
   };
 
+  const handleExportCSV = () => {
+    const data = repositories.map((repo) => ({
+      'Repo ID': repo.id,
+      'First Author': firstAuthors[repo.id],
+    }));
+
+    const csvData = Papa.unparse(data, {
+      header: true,
+    });
+
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'repository_data.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
-    <div className='main'>
+    <div>
       <h1>GitHub Repositories</h1>
+      <button onClick={handleExportCSV}>Export to CSV</button>
       <h2>Repositories</h2>
       <ul>
         {repositories.map((repo) => (
